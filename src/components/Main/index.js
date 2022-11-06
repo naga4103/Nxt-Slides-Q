@@ -1,10 +1,12 @@
+import {Component} from 'react'
+import {v4 as uuidv4} from 'uuid'
 import Header from '../Header'
 import SlideBar from '../SlideBar'
 import SlidePage from '../SlidePage'
 
 import './index.css'
 
-const initialSlidesList = [
+const originalSlidesList = [
   {
     id: 'cc6e1752-a063-11ec-b909-0242ac120002',
     heading: 'Welcome',
@@ -42,13 +44,46 @@ const initialSlidesList = [
   },
 ]
 
-const Main = () => (
-  <div className="main-container">
-    <Header />
-    <div className="body-container">
-      <SlideBar initialSlidesList={initialSlidesList} />
-    </div>
-  </div>
-)
+class Main extends Component {
+  state = {
+    activeSlide: originalSlidesList[0],
+    initialSlidesList: originalSlidesList,
+  }
 
+  updateActiveSlide = slide => {
+    this.setState({activeSlide: slide})
+  }
+
+  updateInitialSlidesList = slide => {
+    const {initialSlidesList, activeSlide} = this.state
+    const index = initialSlidesList.indexOf(activeSlide)
+    console.log(index)
+    const prevList = initialSlidesList.slice(0, index + 1)
+    const nextList = initialSlidesList.slice(index + 1)
+    const newSlide = {id: uuidv4(), ...slide}
+    const updatedSlidesList = [...prevList, newSlide, ...nextList]
+    console.log(updatedSlidesList)
+    this.setState(
+      {initialSlidesList: updatedSlidesList},
+      this.updateActiveSlide(newSlide),
+    )
+  }
+
+  render() {
+    const {activeSlide, initialSlidesList} = this.state
+    return (
+      <div className="main-container">
+        <Header />
+        <div className="body-container">
+          <SlideBar
+            initialSlidesList={initialSlidesList}
+            activeSlide={activeSlide}
+            updateActiveSlide={this.updateActiveSlide}
+            updateInitialSlidesList={this.updateInitialSlidesList}
+          />
+        </div>
+      </div>
+    )
+  }
+}
 export default Main

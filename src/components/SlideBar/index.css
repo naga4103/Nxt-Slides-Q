@@ -10,4 +10,5 @@
 .new-button {
   background-color: #dbeafe;
   width: 100px;
+  cursor: pointer;
 }
