@@ -1,0 +1,13 @@
+.slide-main-container {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  border-width: 1px;
+  border-style: solid;
+  height: 100vh;
+  overflow-y: scroll;
+}
+.new-button {
+  background-color: #dbeafe;
+  width: 100px;
+}
