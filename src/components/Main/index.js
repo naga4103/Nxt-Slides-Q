@@ -48,10 +48,24 @@ class Main extends Component {
   state = {
     activeSlide: originalSlidesList[0],
     initialSlidesList: originalSlidesList,
+    isHeadingClicked: false,
+    isParaClicked: false,
   }
 
   updateActiveSlide = slide => {
     this.setState({activeSlide: slide})
+  }
+
+  updateActiveSlideHeading = value1 => {
+    const {activeSlide} = this.state
+    const id1 = activeSlide.id
+    const description1 = activeSlide.description
+    const updateHeading = {id1, value1, description1}
+    this.updateActiveSlide(updateHeading)
+  }
+
+  onClickedHeading = () => {
+    this.setState({isHeadingClicked: true})
   }
 
   updateInitialSlidesList = slide => {
@@ -70,7 +84,12 @@ class Main extends Component {
   }
 
   render() {
-    const {activeSlide, initialSlidesList} = this.state
+    const {
+      activeSlide,
+      initialSlidesList,
+      isHeadingClicked,
+      isParaClicked,
+    } = this.state
     return (
       <div className="main-container">
         <Header />
@@ -80,6 +99,13 @@ class Main extends Component {
             activeSlide={activeSlide}
             updateActiveSlide={this.updateActiveSlide}
             updateInitialSlidesList={this.updateInitialSlidesList}
+          />
+          <SlidePage
+            activeSlide={activeSlide}
+            updateActiveSlideHeading={this.updateActiveSlideHeading}
+            isHeadingClicked={isHeadingClicked}
+            isParaClicked={isParaClicked}
+            onClickedHeading={this.onClickedHeading}
           />
         </div>
       </div>
